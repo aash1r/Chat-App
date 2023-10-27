@@ -18,7 +18,7 @@ class WallPosts extends StatefulWidget {
 
 class _WallPostsState extends State<WallPosts> {
   final currentUser = FirebaseAuth.instance.currentUser;
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +26,8 @@ class _WallPostsState extends State<WallPosts> {
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.blue.shade500,
+            borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             Column(

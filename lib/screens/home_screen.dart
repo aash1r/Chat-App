@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fire_app/components/my_button.dart';
 import 'package:fire_app/components/my_textfield.dart';
+import 'package:fire_app/components/switch_button.dart';
 import 'package:fire_app/components/wall_posts.dart';
+import 'package:fire_app/theme/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../components/my_box.dart';
 import '../components/my_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
         title: const Text("Home Screen"),
@@ -99,6 +104,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+            MyBox(
+                color: Theme.of(context).colorScheme.primary,
+                child: SwitchButton(
+                  color: Theme.of(context).colorScheme.secondary,
+                  ontap: () {
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme();
+                  },
+                )),
             Text(
               "Youre logged in as ${currentUser?.email}",
               style: TextStyle(
