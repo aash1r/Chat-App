@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fire_app/components/my_button.dart';
 import 'package:fire_app/components/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,12 +15,27 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailcontroller = TextEditingController();
   final passcontroller = TextEditingController();
 
-  void signIn() async {
+  void logIn() async {
     String email = emailcontroller.text.trim();
     String password = passcontroller.text.trim();
 
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    showDialog(
+        context: context,
+        builder: (context) => const Center(
+                child: CircularProgressIndicator(
+              color: Colors.black,
+            )));
+
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+
+      var snackbar = SnackBar(content: Text(e.code));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
   }
 
   @override
@@ -66,9 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 40,
                 ),
-                  MyButton(
+                MyButton(
                   text: "Login",
-                  ontap: signIn,
+                  ontap: logIn,
                 ),
                 const SizedBox(
                   height: 10,
